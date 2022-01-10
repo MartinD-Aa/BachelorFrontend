@@ -31,13 +31,14 @@ function component(width, height, color, x, y){
     this.newPosition = function(){
         this.gravitySpeed += this.gravity;
         this.y += this.gravitySpeed;
-        console.log(this.gravitySpeed)
+        console.log(this.gravitySpeed);
         this.hitBottom();
     }
     this.hitBottom = function(){
         var bottom = gameArea.canvas.height - this.height;
         if (this.y > bottom){
             this.y = bottom;
+            this.gravitySpeed = 0;
         }
     }
 
@@ -68,7 +69,7 @@ window.addEventListener("keydown", function (event) {
         piece.x +=5;
         break;
         case " " : 
-        piece.gravitySpeed = -2;
+        piece.gravitySpeed = -3;
         break;
         
       default:
