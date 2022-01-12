@@ -9,7 +9,7 @@ var gameArea = {
         this.canvas.height = 270;
         this.ctx = this.canvas.getContext('2d');
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 20);
+        this.interval = setInterval(updateGameArea, 30);
     },
     clear : function() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -17,31 +17,63 @@ var gameArea = {
 }
 
 function component(width, height, color, x, y){
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y;
-    this.gravity = 0.05;
-    this.gravitySpeed = 0;
-    this.update = function(){
-        ctx = gameArea.ctx;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
+  this.width = width;
+  this.height = height;
+  this.x = x;
+  this.y = y;
+  this.gravity = 0.1;
+  this.gravitySpeed = 0;
+  this.moveAcceleration = 0.4;
+  this.moveDeceleration = -0.4;
+  this.moveSpeed = 0;
+  this.update = function () {
+    ctx = gameArea.ctx;
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
+  }
+  this.newPosition = function () {
+    this.gravitySpeed += this.gravity;
+    this.y += this.gravitySpeed;
+    this.airResistance();
+    this.x += this.moveSpeed;
+    this.hitBottom();
+    console.log(this.moveSpeed);
+    
+  }
+  this.hitBottom = function () {
+    var bottom = gameArea.canvas.height - this.height;
+    if (this.y > bottom) {
+      this.y = bottom;
+      this.gravitySpeed = 0;
     }
-    this.newPosition = function(){
-        this.gravitySpeed += this.gravity;
-        this.y += this.gravitySpeed;
-        console.log(this.gravitySpeed);
-        this.hitBottom();
+  }
+  this.positivMovement = function () {
+    this.moveSpeed += this.moveAcceleration;
+    if (this.moveSpeed > 6) {
+      moveSpeed = 6;
+      this.x += this.moveSpeed;
+    }else{
+      this.x += this.moveSpeed;
     }
-    this.hitBottom = function(){
-        var bottom = gameArea.canvas.height - this.height;
-        if (this.y > bottom){
-            this.y = bottom;
-            this.gravitySpeed = 0;
-        }
+  }
+  this.negativMovement = function () {
+    this.moveSpeed += this.moveDeceleration;
+    if (this.moveSpeed < -6) {
+      moveSpeed = -6;
+      this.x += this.moveSpeed;
+    }else{
+      this.x += this.moveSpeed;
     }
-
+  }
+  this.airResistance = function (){
+    if(this.moveSpeed >= 0.2){
+      this.moveSpeed += -0.2;
+    }else if(this.moveSpeed <= -0.2){
+      this.moveSpeed += 0.2;
+    }else{
+      this.moveSpeed = 0.0;
+    }
+  }
 }
 
 function updateGameArea(){
@@ -60,15 +92,15 @@ window.addEventListener("keydown", function (event) {
         piece.y +=5;
         break;
       case "ArrowUp":
-        piece.y -=5;
+        piece.gravitySpeed = -3;
         break;
       case "ArrowLeft":
-        piece.x -=5;
+        piece.negativMovement();
         break;
       case "ArrowRight":
-        piece.x +=5;
+        piece.positivMovement();
         break;
-        case " " : 
+      case " " : 
         piece.gravitySpeed = -3;
         break;
         
