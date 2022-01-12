@@ -34,7 +34,7 @@ function component(width, height, color, x, y){
   this.newPosition = function () {
     this.gravitySpeed += this.gravity;
     this.y += this.gravitySpeed;
-    this.airResistance();
+    this.friction();
     this.x += this.moveSpeed;
     this.hitBottom();
     console.log(this.moveSpeed);
@@ -65,7 +65,7 @@ function component(width, height, color, x, y){
       this.x += this.moveSpeed;
     }
   }
-  this.airResistance = function (){
+  this.friction = function (){
     if(this.moveSpeed >= 0.2){
       this.moveSpeed += -0.2;
     }else if(this.moveSpeed <= -0.2){
