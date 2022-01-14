@@ -1,43 +1,42 @@
 
-window.onload = function (){
-var canvasBG = document.getElementById("canvasBackGround"),
+window.onload = function () {
+  var canvasBG = document.getElementById("canvasBackGround"),
     c_bg = canvasBG.getContext("2d");
+  canvasBG.width = window.innerWidth;
+  canvasBG.height = window.innerHeight;
+  //canvasBG.width = document.body.clientWidth; document.width is obsolete
+  //canvasBG.height = document.body.clientHeight; document.height is obsolete
+  var background = new Image();
+  background.src = './Sprites/background.png';
 
-   canvasBG.width = window.innerWidth;
-canvasBG.height = window.innerHeight;
-/*canvasBG.width = document.body.clientWidth; //document.width is obsolete
-canvasBG.height = document.body.clientHeight; //document.height is obsolete*/
-var background = new Image();
-background.src = './Sprites/background.png';
-
-background.onload = function(){
-  c_bg.drawImage(background,0,0, canvasBG.width, canvasBG.height);   
+  background.onload = function () {
+    c_bg.drawImage(background, 0, 0, canvasBG.width, canvasBG.height);
+  }
 }
-}
 
 
 
-function startGame(){
-    gameArea.start();
-    piece = new component(15, 15, "red", 10, 480);
+function startGame() {
+  gameArea.start();
+  piece = new component(15, 15, "red", 10, 480);
 }
 var gameArea = {
-    canvas : document.getElementById('canvas1'),
-    start : function() {
-        this.canvas.width = 480;
-        this.canvas.height = 270;
-        this.ctx = this.canvas.getContext('2d');
-        document.body.insertBefore(this.canvas, document.body.childNodes[0]);
-        this.interval = setInterval(updateGameArea, 30);
+  canvas: document.getElementById('canvas1'),
+  start: function () {
+    this.canvas.width = 480;
+    this.canvas.height = 270;
+    this.ctx = this.canvas.getContext('2d');
+    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    this.interval = setInterval(updateGameArea, 30);
 
-    },
-    clear : function() {
-        this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-    }
+  },
+  clear: function () {
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  }
 }
 
 
-function component(width, height, color, x, y){
+function component(width, height, color, x, y) {
   this.width = width;
   this.height = height;
   this.x = x;
@@ -51,32 +50,32 @@ function component(width, height, color, x, y){
   this.update = function () {
     ctx = gameArea.ctx;
     ctx.fillStyle = color;
-        //ctx.fillRect(this.x, this.y, this.width, this.height);
+    //ctx.fillRect(this.x, this.y, this.width, this.height);
   }
   this.newPosition = function () {
-    document.onkeydown = function (e){
-      if(!keys[e.code]){
+    document.onkeydown = function (e) {
+      if (!keys[e.code]) {
         keys[e.code] = true;
       }
-        console.log(keys);
+      console.log(keys);
     };
-    document.onkeyup = function (e){
+    document.onkeyup = function (e) {
       keys[e.code] = false;
       console.log(keys);
     }
-    if(keys["ArrowLeft"]){
+    if (keys["ArrowLeft"]) {
       piece.negativMovement();
     }
-    if(keys["ArrowRight"]){
+    if (keys["ArrowRight"]) {
       piece.positivMovement();
     }
-    if(keys["ArrowDown"]){
+    if (keys["ArrowDown"]) {
       piece.y += 5;
     }
-    if(keys["ArrowUp"]){
+    if (keys["ArrowUp"]) {
       piece.jump();
     }
-    if(keys["Space"]){
+    if (keys["Space"]) {
       piece.jump();
     }
     this.gravitySpeed += this.gravity;
@@ -97,7 +96,7 @@ function component(width, height, color, x, y){
     if (this.moveSpeed > 6) {
       moveSpeed = 6;
       this.x += this.moveSpeed;
-    }else{
+    } else {
       this.x += this.moveSpeed;
     }
   }
@@ -106,21 +105,21 @@ function component(width, height, color, x, y){
     if (this.moveSpeed < -6) {
       moveSpeed = -6;
       this.x += this.moveSpeed;
-    }else{
+    } else {
       this.x += this.moveSpeed;
     }
   }
   this.jump = function () {
-    if (this.gravitySpeed === 0 || this.gravitySpeed === 0.1){
+    if (this.gravitySpeed === 0 || this.gravitySpeed === 0.1) {
       piece.gravitySpeed = -3;
     }
   }
-  this.friction = function (){
-    if(this.moveSpeed >= 0.2){
+  this.friction = function () {
+    if (this.moveSpeed >= 0.2) {
       this.moveSpeed += -0.2;
-    }else if(this.moveSpeed <= -0.2){
+    } else if (this.moveSpeed <= -0.2) {
       this.moveSpeed += 0.2;
-    }else{
+    } else {
       this.moveSpeed = 0.0;
     }
   }
@@ -132,23 +131,23 @@ let sprite_array_still = [];
 const sprite_image_Idle1 = new Image();
 sprite_image_Idle1.src = './Sprites/freeknight/png/Idle (1).png'
 const sprite_image_Idle2 = new Image();
-sprite_image_Idle2.src= './Sprites/freeknight/png/Idle (2).png'
+sprite_image_Idle2.src = './Sprites/freeknight/png/Idle (2).png'
 const sprite_image_Idle3 = new Image();
 sprite_image_Idle3.src = './Sprites/freeknight/png/Idle (3).png'
-const sprite_image_Idle4=new Image();
-sprite_image_Idle4.src='./Sprites/freeknight/png/Idle (4).png'
-const sprite_image_Idle5=new Image();
-sprite_image_Idle5.src='./Sprites/freeknight/png/Idle (5).png'
-const sprite_image_Idle6=new Image();
-sprite_image_Idle6.src='./Sprites/freeknight/png/Idle (6).png'
-const sprite_image_Idle7=new Image();
-sprite_image_Idle7.src='./Sprites/freeknight/png/Idle (7).png'
-const sprite_image_Idle8=new Image();
-sprite_image_Idle8.src='./Sprites/freeknight/png/Idle (8).png'
-const sprite_image_Idle9=new Image();
-sprite_image_Idle9.src='./Sprites/freeknight/png/Idle (9).png'
-const sprite_image_Idle10=new Image();
-sprite_image_Idle10.src='./Sprites/freeknight/png/Idle (10).png'
+const sprite_image_Idle4 = new Image();
+sprite_image_Idle4.src = './Sprites/freeknight/png/Idle (4).png'
+const sprite_image_Idle5 = new Image();
+sprite_image_Idle5.src = './Sprites/freeknight/png/Idle (5).png'
+const sprite_image_Idle6 = new Image();
+sprite_image_Idle6.src = './Sprites/freeknight/png/Idle (6).png'
+const sprite_image_Idle7 = new Image();
+sprite_image_Idle7.src = './Sprites/freeknight/png/Idle (7).png'
+const sprite_image_Idle8 = new Image();
+sprite_image_Idle8.src = './Sprites/freeknight/png/Idle (8).png'
+const sprite_image_Idle9 = new Image();
+sprite_image_Idle9.src = './Sprites/freeknight/png/Idle (9).png'
+const sprite_image_Idle10 = new Image();
+sprite_image_Idle10.src = './Sprites/freeknight/png/Idle (10).png'
 
 sprite_array_still.push(sprite_image_Idle1)
 sprite_array_still.push(sprite_image_Idle2)
@@ -161,35 +160,35 @@ sprite_array_still.push(sprite_image_Idle8)
 sprite_array_still.push(sprite_image_Idle9)
 sprite_array_still.push(sprite_image_Idle10)
 
-let i=0;
-let gameFrame=0;
-const staggerFrame= 5
+let i = 0;
+let gameFrame = 0;
+const staggerFrame = 5
 
 console.log(sprite_array_still)
-sprite = function(dx,dy,d_width, d_height){
-  ctx=gameArea.ctx;
+sprite = function (dx, dy, d_width, d_height) {
+  ctx = gameArea.ctx;
 
   gameFrame++;
-  if (gameFrame % staggerFrame == 0){
-  
-  i++
+  if (gameFrame % staggerFrame == 0) {
+
+    i++
   }
-  if(i>9){
-    i=0;
+  if (i > 9) {
+    i = 0;
   }
-  ctx.drawImage(sprite_array_still[i], 0,0 ,587,707, dx, dy, d_width, d_height)
-  
+  ctx.drawImage(sprite_array_still[i], 0, 0, 587, 707, dx, dy, d_width, d_height)
+
   /*for(let i=0 ; i < sprite_array_still.length;i++){
   
   }*/
 }
-function updateGameArea(){
-    gameArea.clear();
-    
-    piece.newPosition();
-    sprite(piece.x, piece.y, piece.width, piece.height );
-    piece.update();
-    
+function updateGameArea() {
+  gameArea.clear();
+
+  piece.newPosition();
+  sprite(piece.x, piece.y, piece.width, piece.height);
+  piece.update();
+
 }
 
 
