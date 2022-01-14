@@ -1,6 +1,6 @@
 function startGame(){
     gameArea.start();
-    piece = new component(30, 30, "red", 10, 110);
+    piece = new component(15, 15, "red", 10, 480);
 }
 var gameArea = {
     canvas : document.getElementById('canvas1'),
