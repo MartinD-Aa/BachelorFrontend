@@ -10,12 +10,14 @@ var gameArea = {
         this.ctx = this.canvas.getContext('2d');
         document.body.insertBefore(this.canvas, document.body.childNodes[0]);
         this.interval = setInterval(updateGameArea, 30);
+
     },
     clear : function() {
         this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
 
+let keys = [];
 function component(width, height, color, x, y){
   this.width = width;
   this.height = height;
@@ -32,13 +34,34 @@ function component(width, height, color, x, y){
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
   this.newPosition = function () {
+    document.onkeydown = e =>{
+      if(!keys[e.code]){
+        keys[e.code] = true;
+      }
+    };
+    document.onkeyup = e =>{
+      keys[e.code] = false;
+    }
+    if(keys["ArrowLeft"]){
+      piece.negativMovement();
+    }
+    if(keys["ArrowRight"]){
+      piece.positivMovement();
+    }
+    if(keys["ArrowDown"]){
+      piece.y += 5;
+    }
+    if(keys["ArrowUp"]){
+      piece.jump();
+    }
+    if(keys["Space"]){
+      piece.jump();
+    }
     this.gravitySpeed += this.gravity;
     this.y += this.gravitySpeed;
     this.friction();
     this.x += this.moveSpeed;
     this.hitBottom();
-    console.log(this.moveSpeed);
-    
   }
   this.hitBottom = function () {
     var bottom = gameArea.canvas.height - this.height;
@@ -65,6 +88,11 @@ function component(width, height, color, x, y){
       this.x += this.moveSpeed;
     }
   }
+  this.jump = function () {
+    if (this.gravitySpeed === 0 || this.gravitySpeed === 0.1){
+      piece.gravitySpeed = -3;
+    }
+  }
   this.friction = function (){
     if(this.moveSpeed >= 0.2){
       this.moveSpeed += -0.2;
@@ -82,11 +110,14 @@ function updateGameArea(){
     piece.update();
 }
 
+
+/*
 window.addEventListener("keydown", function (event) {
     if (event.defaultPrevented) {
       return; // Do nothing if the event was already processed
     }
-  
+    //if()
+    console.log(event.key);
     switch (event.key) {
       case "ArrowDown": 
         piece.y +=5;
@@ -103,6 +134,14 @@ window.addEventListener("keydown", function (event) {
       case " " : 
         piece.gravitySpeed = -3;
         break;
+      case " "&&"ArrowLeft"||"ArrowUp"&&"ArrowLeft":
+        piece.negativMovement();
+        piece.gravitySpeed = -3;
+        break;
+      case " "&&"ArrowRight" || "ArrowUp"&&"ArrowRight":
+        piece.positivMovement();
+        piece.gravitySpeed = -3;
+        break;
         
       default:
         return; // Quit when this doesn't handle the key event.
@@ -114,5 +153,5 @@ window.addEventListener("keydown", function (event) {
   // the last option dispatches the event to the listener first,
   // then dispatches event to window
 
-
+*/
 startGame();
