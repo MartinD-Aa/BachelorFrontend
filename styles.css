@@ -1,8 +1,26 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#canvasBackGround{
+    position: absolute;
+    /*background:url("D:/Koding/Bachelor/BachelorFrontend/Sprites/background.png");*/
+    z-index: 0;
+    width:100%;
+    height:100%;
+    left:0;
+    top:0;
+    
+}
+
 #canvas1{
     position: absolute;
-    background: black;
+    z-index: 1;
+    background: transparent;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
 }
+
