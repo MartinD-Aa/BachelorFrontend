@@ -17,7 +17,7 @@ var gameArea = {
     }
 }
 
-let keys = [];
+
 function component(width, height, color, x, y){
   this.width = width;
   this.height = height;
@@ -28,19 +28,22 @@ function component(width, height, color, x, y){
   this.moveAcceleration = 0.4;
   this.moveDeceleration = -0.4;
   this.moveSpeed = 0;
+  let keys = [];
   this.update = function () {
     ctx = gameArea.ctx;
     ctx.fillStyle = color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
   this.newPosition = function () {
-    document.onkeydown = e =>{
+    document.onkeydown = function (e){
       if(!keys[e.code]){
         keys[e.code] = true;
+        console.log(keys);
       }
     };
-    document.onkeyup = e =>{
+    document.onkeyup = function (e){
       keys[e.code] = false;
+      console.log(keys);
     }
     if(keys["ArrowLeft"]){
       piece.negativMovement();
